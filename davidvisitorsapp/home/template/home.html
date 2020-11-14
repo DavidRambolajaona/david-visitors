@@ -6,9 +6,43 @@
     <title>Hello Visitor</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
 </head>
 <body>
-    <h1>Hello there !</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div>You are the <span>{{data["rank_site"]}}</span><sup>{{data["rank_site_th"]}}</sup> visitor of this website out of <span>{{data["total_visit_site"]}}</span></div>
+                <div>And the <span>{{data["rank_day"]}}</span><sup>{{data["rank_day_th"]}}</sup> of the day out of <span>{{data["total_visit_day"]}}</span></div>
+            </div>
+        </div>
+
+        <!--<div class="row">
+            <div class="col-sm-12">
+                <div>
+                    <p>En ligne : <span>3</span></p>
+                </div>
+                <div>
+                    <div>
+                        <p>Karly</p>
+                        <p>Hello</p>
+                    </div>
+                    <div>
+                        <p>David</p>
+                        <p>world !</p>
+                    </div>
+                    <div>
+                        <p>Karly</p>
+                        <p>Hihi</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <input type="text" placeholder="Send a message">
+                        <button>Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
 </body>
 </html>
