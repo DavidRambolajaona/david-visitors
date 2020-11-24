@@ -15,7 +15,6 @@ class Visit(db.Model):
     visit_id = db.Column(db.Integer, primary_key=True)
     visit_date_visit = db.Column(db.DateTime, default=datetime.utcnow())
     visit_date_visit_date = db.Column(db.Date, default=datetime.utcnow().date())
-    visit_session = db.Column(db.String(30), nullable=False)
     visit_user_agent = db.Column(db.Text)
     visit_adresse_ip = db.Column(db.String(25))
     visit_user_id = db.Column(db.Integer, default=0)
@@ -23,9 +22,6 @@ class Visit(db.Model):
     visit_date_logout = db.Column(db.DateTime)
     visit_rank_site = db.Column(db.Integer, default=0)
     visit_rank_day = db.Column(db.Integer, default=0)
-
-    def __init__(self, session = "pas de session") :
-        self.visit_session = session
 
 """#One to Many with Category
 #One to Many with Joke

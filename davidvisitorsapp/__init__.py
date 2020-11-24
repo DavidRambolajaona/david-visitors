@@ -1,4 +1,6 @@
 from flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 import os
 
@@ -11,12 +13,23 @@ def create_app():
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://davidvisitorsadmin:davidvisitorspassword@localhost/davidvisitors'
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL_DAVIDVISITORS')
     app.secret_key = os.environ.get('SECRET_KEY_DAVIDVISITORS')
+    app.config['PERMANENT_SESSION_LIFETIME'] = 3600
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    # https://flask-admin.readthedocs.io/en/latest/introduction
+
+    # set optional bootswatch theme
+    # See https://bootswatch.com/3/ for available swatches
+    app.config['FLASK_ADMIN_SWATCH'] = 'superhero'
+
+    admin = Admin(app, name='Admin interface :)', template_mode='bootstrap3')
 
     app.register_blueprint(home_bp)
 
     with app.app_context() :
-        from .models import db
+        from .models import db, Visit
+
+        admin.add_view(ModelView(Visit, db.session))
         
         db.init_app(app)
         db.create_all()

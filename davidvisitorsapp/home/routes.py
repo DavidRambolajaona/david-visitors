@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, session, request
+from flask import Blueprint, render_template, session, request, redirect
 from davidvisitorsapp.models import db, Visit
 
 from datetime import datetime
+
 import time
 import random
 import string
@@ -12,22 +13,31 @@ home_bp = Blueprint('home', __name__, template_folder='template')
 
 @home_bp.before_request
 def beforeRequest():
-    if "visitor" not in session :
-        session["visitor"] = getRandomText()
-        visit = Visit(session=session["visitor"])
-        visit.visit_user_agent = request.headers.get('User-Agent')
-        visit.visit_adresse_ip = request.remote_addr
-        visit.visit_rank_site = len(Visit.query.all()) + 1
-        visit.visit_rank_day = len(Visit.query.filter(Visit.visit_date_visit_date == datetime.utcnow().date()).all()) + 1
+    if request.path not in ["/dropdb"] :
+        session.permanent = True
+        if "visitor" in session :
+            visit = Visit.query.filter(Visit.visit_id==session["visitor"]).first()
+            if not visit or visit.visit_date_visit_date != datetime.utcnow().date() :
+                del session["visitor"]
+        if "visitor" not in session :
+            visit = Visit()
+            visit.visit_date_visit = datetime.utcnow()
+            visit.visit_date_visit_date = datetime.utcnow().date()
+            visit.visit_user_agent = request.headers.get('User-Agent')
+            visit.visit_adresse_ip = request.remote_addr
+            visit.visit_rank_site = len(Visit.query.all()) + 1
+            visit.visit_rank_day = len(Visit.query.filter(Visit.visit_date_visit_date == datetime.utcnow().date()).all()) + 1
 
-        db.session.add(visit)
-        db.session.commit()
+            db.session.add(visit)
+            db.session.commit()
+
+            session["visitor"] = visit.visit_id
 
 
 @home_bp.route('/')
 def index():
     data = {}
-    visit = Visit.query.filter(Visit.visit_session==session["visitor"]).first()
+    visit = Visit.query.filter(Visit.visit_id==session["visitor"]).first()
 
     rank_site = visit.visit_rank_site
     data["rank_site"] = rank_site
@@ -43,6 +53,12 @@ def index():
 
     
     return render_template('home.html', data = data)
+
+@home_bp.route('/dropdb')
+def dropdb() :
+    db.drop_all()
+    db.create_all()
+    return redirect("/")
 
 
 def getRankText(n) :
