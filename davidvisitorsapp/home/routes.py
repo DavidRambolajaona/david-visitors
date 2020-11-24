@@ -58,6 +58,8 @@ def index():
 def dropdb() :
     db.drop_all()
     db.create_all()
+    if "visitor" in session :
+        del session["visitor"]
     return redirect("/")
 
 
