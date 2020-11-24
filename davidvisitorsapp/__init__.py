@@ -10,6 +10,7 @@ from .home.routes import home_bp
 def create_app():
     app = Flask(__name__)
 
+    # mysql : https://stackoverflow.com/questions/25865270/how-to-install-python-mysqldb-module-using-pip/25865271
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://davidvisitorsadmin:davidvisitorspassword@localhost/davidvisitors'
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL_DAVIDVISITORS')
     app.secret_key = os.environ.get('SECRET_KEY_DAVIDVISITORS')
