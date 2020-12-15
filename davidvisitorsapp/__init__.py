@@ -5,6 +5,7 @@ from flask_admin.contrib.sqla import ModelView
 import os
 
 from .home.routes import home_bp
+from .user.routes import user_bp
 
 
 def create_app():
@@ -26,11 +27,13 @@ def create_app():
     admin = Admin(app, name='Admin interface :)', template_mode='bootstrap3')
 
     app.register_blueprint(home_bp)
+    app.register_blueprint(user_bp)
 
     with app.app_context() :
-        from .models import db, Visit
+        from .models import db, Visit, User
 
         admin.add_view(ModelView(Visit, db.session))
+        admin.add_view(ModelView(User, db.session))
         
         db.init_app(app)
         db.create_all()

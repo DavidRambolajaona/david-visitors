@@ -1,6 +1,3 @@
-"""from flask_sqlalchemy import SQLAlchemy
-from .views import app"""
-#from . import db
 from flask_sqlalchemy import SQLAlchemy
 
 from datetime import datetime
@@ -22,6 +19,30 @@ class Visit(db.Model):
     visit_date_logout = db.Column(db.DateTime)
     visit_rank_site = db.Column(db.Integer, default=0)
     visit_rank_day = db.Column(db.Integer, default=0)
+
+class User(db.Model):
+    __tablename__ = "user"
+    user_id = db.Column(db.Integer, primary_key=True)
+    user_pseudo = db.Column(db.String(50), unique=True, nullable=False)
+    user_email = db.Column(db.String(100))
+    user_password = db.Column(db.String(50), nullable=False)
+    user_date_creation = db.Column(db.DateTime, default=datetime.utcnow())
+    user_date_last_modification = db.Column(db.DateTime, default=datetime.utcnow())
+
+    def __init__(self, pseudo, password, email=None):
+        self.user_pseudo = pseudo
+        self.user_password = password
+        self.user_email = email
+
+    def toDict(self):
+        d = {}
+        d["user_id"] = self.user_id
+        d["user_pseudo"] = self.user_pseudo
+        d["user_email"] = self.user_email
+        d["user_password"] = self.user_password
+        d["user_date_creation"] = self.user_date_creation
+        d["user_date_last_modification"] = self.user_date_last_modification
+        return d
 
 """#One to Many with Category
 #One to Many with Joke

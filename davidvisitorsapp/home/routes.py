@@ -8,7 +8,7 @@ import random
 import string
 import json
 
-home_bp = Blueprint('home', __name__, template_folder='template')
+home_bp = Blueprint('home_bp', __name__, template_folder='template')
 
 
 @home_bp.before_request
