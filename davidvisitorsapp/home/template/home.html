@@ -5,7 +5,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Hello Visitor</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/bootstrap/css/bootstrap.min.css') }}">
 </head>
 <body>
     <div class="container">
@@ -16,33 +16,18 @@
             </div>
         </div>
 
-        <!--<div class="row">
+
+        <div class="row">
             <div class="col-sm-12">
-                <div>
-                    <p>En ligne : <span>3</span></p>
-                </div>
-                <div>
-                    <div>
-                        <p>Karly</p>
-                        <p>Hello</p>
-                    </div>
-                    <div>
-                        <p>David</p>
-                        <p>world !</p>
-                    </div>
-                    <div>
-                        <p>Karly</p>
-                        <p>Hihi</p>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <input type="text" placeholder="Send a message">
-                        <button>Send</button>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modal-signin">Se connecter</button>
             </div>
-        </div>-->
+        </div>
+
+
+        <!-- Modals -->
+        {% include 'modal_signin.html' %}
     </div>
+
+    {% include 'scriptsjs.html' %}
 </body>
 </html>

@@ -10,7 +10,7 @@ import string
 import json
 import hashlib
 
-user_bp = Blueprint('user_bp', __name__, template_folder='template')
+user_bp = Blueprint('user_bp', __name__, template_folder='templates')
 
 
 @user_bp.route('/api/user/check', methods=["POST"])
