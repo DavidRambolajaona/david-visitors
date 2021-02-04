@@ -1,0 +1,51 @@
+<div class="modal fade" id="modal-signup" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signupModalLabel">Creating an account</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="form-signup">
+  
+            <input type="hidden" name="to_log" value="true">
+
+            <p id="text_info_signup" class="text-danger"></p>
+  
+            <div class="form-group">
+              <label for="pseudo">Pseudo *</label>
+              <input type="text" class="form-control" id="pseudo_signup" name="pseudo" placeholder="Ex : Mickey Duck" required>
+              <div class="invalid-feedback">* Pseudo is obligatory</div>
+            </div>
+  
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email_signup" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Ex : mickey.duck@disney.com">
+              <div class="invalid-feedback">* Valid email address is obligatory</div>
+            </div>
+  
+            <div class="form-group">
+              <label for="password">Password *</label>
+              <input type="password" class="form-control" id="password_signup" name="password" required>
+              <div class="invalid-feedback">* Password is obligatory</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirm_password">Confirm password *</label>
+              <input type="password" class="form-control" id="confirm_password_signup" name="confirm_password" required>
+              <div class="invalid-feedback">* The two passwords must match</div>
+            </div>
+
+          </form>
+
+          <button id="btn-create-account" class="btn btn-success btn-block">Ok let's create this account !</button>
+          <button id="btn-switch-to-signin" class="btn btn-warning btn-block">I want to log in another account</button>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
