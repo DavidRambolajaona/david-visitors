@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, request, redirect
-from davidvisitorsapp.models import db, Visit
+from davidvisitorsapp.models import db, Visit, User
 
 from datetime import datetime
 
@@ -8,7 +8,7 @@ import random
 import string
 import json
 
-home_bp = Blueprint('home_bp', __name__, template_folder='template')
+home_bp = Blueprint('home_bp', __name__, template_folder='template', static_folder='static', static_url_path='/home-static')
 
 
 @home_bp.before_request
@@ -51,8 +51,12 @@ def index():
     nbVisitsDay = len(Visit.query.filter(Visit.visit_date_visit_date == datetime.utcnow().date()).all())
     data["total_visit_day"] = nbVisitsDay
 
+    user = None 
+    if "user" in session :
+        user = User.query.get(session["user"])
+
     
-    return render_template('home.html', data = data)
+    return render_template('home.html', data = data, user = user)
 
 @home_bp.route('/dropdb')
 def dropdb() :
@@ -60,6 +64,8 @@ def dropdb() :
     db.create_all()
     if "visitor" in session :
         del session["visitor"]
+    if "user" in session :
+        del session["user"]
     return redirect("/")
 
 

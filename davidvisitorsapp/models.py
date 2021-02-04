@@ -24,7 +24,7 @@ class User(db.Model):
     __tablename__ = "user"
     user_id = db.Column(db.Integer, primary_key=True)
     user_pseudo = db.Column(db.String(50), unique=True, nullable=False)
-    user_email = db.Column(db.String(100))
+    user_email = db.Column(db.String(100), unique=True)
     user_password = db.Column(db.String(50), nullable=False)
     user_date_creation = db.Column(db.DateTime, default=datetime.utcnow())
     user_date_last_modification = db.Column(db.DateTime, default=datetime.utcnow())

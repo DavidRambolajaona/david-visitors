@@ -10,24 +10,29 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <div>You are the <span>{{data["rank_site"]}}</span><sup>{{data["rank_site_th"]}}</sup> visitor of this website out of <span>{{data["total_visit_site"]}}</span></div>
-                <div>And the <span>{{data["rank_day"]}}</span><sup>{{data["rank_day_th"]}}</sup> of the day out of <span>{{data["total_visit_day"]}}</span></div>
+            <div class="col-sm-12" id="info_visit">
+                {% include 'pieces/info_visit.html' %}
             </div>
         </div>
 
 
         <div class="row">
-            <div class="col-sm-12">
-                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modal-signin">Se connecter</button>
+            <div class="col-sm-12" id="homeMainBtn">
+                {% include 'pieces/button_user.html' %}
             </div>
         </div>
 
 
         <!-- Modals -->
         {% include 'modal_signin.html' %}
+        {% include 'modal_signup.html' %}
+        {% include 'modal_user_info.html' %}
     </div>
 
     {% include 'scriptsjs.html' %}
+    <script type="text/javascript" src="{{ url_for('home_bp.static', filename='home.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('user_bp.static', filename='js/user_info.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('user_bp.static', filename='js/signin.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('user_bp.static', filename='js/signup.js') }}"></script>
 </body>
 </html>

@@ -2,17 +2,37 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="signinModalLabel">Se connecter</h5>
+        <h5 class="modal-title" id="signinModalLabel">Logging</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      ...
+        <form id="form-signin">
+
+          <input type="hidden" name="to_log" value="true">
+
+          <p id="text_info_signin" class="text-danger"></p>
+
+          <div class="form-group">
+            <label for="pseudo">Pseudo or Email *</label>
+            <input type="text" class="form-control" id="pseudo_signin" name="pseudo" required>
+            <div class="invalid-feedback">* Pseudo or email is obligatory</div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password *</label>
+            <input type="password" class="form-control" id="password_signin" name="password" required>
+            <div class="invalid-feedback">* Password is obligatory</div>
+          </div>
+        </form>
+
+        <button id="btn-ok-signin" class="btn btn-success btn-block">Let's log in !</button>
+        <button id="btn-switch-to-signup" class="btn btn-warning btn-block">I want to create an account</button>
       </div>
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
@@ -10,6 +11,7 @@ from .user.routes import user_bp
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
 
     # mysql : https://stackoverflow.com/questions/25865270/how-to-install-python-mysqldb-module-using-pip/25865271
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://davidvisitorsadmin:davidvisitorspassword@localhost/davidvisitors'
