@@ -6,21 +6,26 @@
     <title>Hello Visitor</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/bootstrap/css/bootstrap.min.css') }}">
+    <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/david/css/david.css') }}">
 </head>
-<body>
-    <div class="container">
+<body class="dav-bg-color-gradient-1">
+    <div class="container dav-w-h-100">
         <div class="row">
-            <div class="col-sm-12" id="info_visit">
+            <div class="col-sm-12 d-flex flex-column dav-fm-1" id="info_visit">
                 {% include 'pieces/info_visit.html' %}
             </div>
         </div>
 
 
         <div class="row">
-            <div class="col-sm-12" id="homeMainBtn">
+            <div class="col-sm-12 d-flex justify-content-center" id="homeMainBtn">
                 {% include 'pieces/button_user.html' %}
             </div>
         </div>
+
+
+        <!-- Messages -->
+        {% include 'messages_zone.html' %}
 
 
         <!-- Modals -->

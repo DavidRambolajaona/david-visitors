@@ -7,6 +7,7 @@ import os
 
 from .home.routes import home_bp
 from .user.routes import user_bp
+from .message.routes import message_bp
 
 
 def create_app():
@@ -30,6 +31,7 @@ def create_app():
 
     app.register_blueprint(home_bp)
     app.register_blueprint(user_bp)
+    app.register_blueprint(message_bp)
 
     with app.app_context() :
         from .models import db, Visit, User
