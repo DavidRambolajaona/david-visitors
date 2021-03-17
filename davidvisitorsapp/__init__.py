@@ -35,11 +35,14 @@ def create_app():
 
     with app.app_context() :
         from .models import db, Visit, User
+        from .socketio import socketio
 
         admin.add_view(ModelView(Visit, db.session))
         admin.add_view(ModelView(User, db.session))
         
         db.init_app(app)
         db.create_all()
+
+        socketio.init_app(app)
 
         return app

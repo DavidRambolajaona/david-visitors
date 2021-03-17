@@ -51,6 +51,8 @@ def index():
     nbVisitsDay = len(Visit.query.filter(Visit.visit_date_visit_date == datetime.utcnow().date()).all())
     data["total_visit_day"] = nbVisitsDay
 
+    data["visitor_id"] = visit.visit_id
+
     user = None 
     if "user" in session :
         user = User.query.get(session["user"])

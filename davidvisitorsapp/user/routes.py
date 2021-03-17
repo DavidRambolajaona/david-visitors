@@ -38,8 +38,11 @@ def checkUser():
 
             # Bouton HTML du compte de l'internaute
             btnHtml = render_template("pieces/button_user.html", user = user)
+
+            # Input d'envoi de message
+            messageInputHtml = render_template("pieces/message_input_send.html")
             
-            return jsonify({"success": True, "exist": True, "user": userArray, "btn_user": btnHtml})
+            return jsonify({"success": True, "exist": True, "user": userArray, "btn_user": btnHtml, "message_input": messageInputHtml})
     else :
         return jsonify({"success": False, "message": "Pseudo et password doivent être spécifiés"})
 
@@ -91,6 +94,10 @@ def createUser():
             btnHtml = render_template("pieces/button_user.html", user = user)
             data["btn_user"] = btnHtml
 
+            # Input d'envoi de message
+            messageInputHtml = render_template("pieces/message_input_send.html")
+            data["message_input"] = messageInputHtml
+
     else :
         data["success"] = False
         data["message"] = "Le pseudo ou le mot de passe n'est pas spécifié"
@@ -137,7 +144,9 @@ def logoutUser() :
 
     btnSigninHtml = render_template("pieces/button_user.html")
 
-    return jsonify({"success": True, "btn_signin": btnSigninHtml,  "code": "", "info_visit": infoVisitHtml})
+    messageInputHtml = render_template("pieces/message_input_send.html")
+
+    return jsonify({"success": True, "btn_signin": btnSigninHtml,  "code": "", "info_visit": infoVisitHtml, "message_input": messageInputHtml})
 
 
 def getRankText(n) :

@@ -1,6 +1,14 @@
 
 const btnHomeSigninHtml = '<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modal-signin">Sign in</button>';
-var url_host = window.location.origin;
+const url_host = window.location.origin;
+const visitor_id = $("#visitor_id").val();
+
+// Initializing socket
+var socket = io.connect(url_host);
+socket.on('connect', function() {
+    var data = {"type": "connection", "info": {"visitor_id": visitor_id}};
+    socket.send(JSON.stringify(data));
+});
 
 
 function letsAjaxIt(url="/", type="GET", data={}, datatype="json", cb=function(r,s,e){}) {

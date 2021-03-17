@@ -1,0 +1,10 @@
+{% if session["user"] is defined %}
+    <div class="dav-msg-form-input dav-w-h-100">
+        <input type="text" class="form-control" placeholder="Write your message here" name="message-text-input" id="message-text-input" autocomplete="off">
+        <button class="" id="message-btn-send">Send</button>
+    </div>
+{% else %}
+    <div class="dav-msg-log-in">
+        <span>Log in to send messages</span>
+    </div>
+{% endif %}

@@ -1,7 +1,7 @@
 <div class="row dav-row-messages">
     <div class="col-sm-12 dav-w-h-100">
         <div class="dav-messages-body" id="dav-messages-body">
-            <div class="dav-bloc-message dav-msg-others" data-user-id="16">
+            <!--<div class="dav-bloc-message dav-msg-others" data-user-id="16" data-message-id="1">
                 <div class="dav-msg-user-icon"></div>
                 <div class="dav-msg-infos">
                     <div class="dav-msg-user-name">Humina</div>
@@ -46,27 +46,18 @@
                 </div>
             </div>
 
-            <div class="dav-bloc-message dav-msg-others" data-user-id="16">
+            <div class="dav-bloc-message dav-msg-others dav-last-msg" data-user-id="16">
                 <div class="dav-msg-user-icon"></div>
                 <div class="dav-msg-infos">
                     <div class="dav-msg-user-name">Humina</div>
                     <div class="dav-msg-text">Je te déteste.</div>
                     <div class="dav-msg-date">14-03-21 05:20</div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <div class="dav-messages-input">
-        {% if session["user"] is defined %}
-            <div class="dav-msg-form-input dav-w-h-100">
-                <input type="text" class="form-control" placeholder="Write your message here" name="message-text-input" id="message-text-input">
-                <button class="" id="message-btn-send">Send</button>
-            </div>
-        {% else %}
-            <div class="dav-msg-log-in">
-                <span>Log in to send messages</span>
-            </div>
-        {% endif %}
+            {% include 'pieces/message_input_send.html' %}
         </div>
     </div>
 </div>

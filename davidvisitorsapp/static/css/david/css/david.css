@@ -135,3 +135,7 @@ html, body, .dav-w-h-100 {
     min-height: 80%;
     border-radius: 50px;
 }
+
+.dav-msg-not-already-sent {
+    opacity: 0.7;
+}

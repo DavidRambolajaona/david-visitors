@@ -52,7 +52,8 @@ $("#btn-ok-signin").on("click", function(e){
             if (!e) {
                 if (r.success) {
                     $("#homeMainBtn").html(r.btn_user);
-                    $("#modal-signin").modal("hide")
+                    $(".dav-messages-input").html(r.message_input);
+                    $("#modal-signin").modal("hide");
                 }
                 else {
                     $("#text_info_signin").text(getInfoMessage(r.code));

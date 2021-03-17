@@ -9,6 +9,7 @@ $("#btn-logout").on("click", function(e){
         if (!e) {
             if (r.success) {
                 $("#homeMainBtn").html(r.btn_signin);
+                $(".dav-messages-input").html(r.message_input);
                 $("#info_visit").html(r.info_visit);
                 $("#modal-user-info").modal("hide");
             }
