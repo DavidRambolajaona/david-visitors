@@ -21,5 +21,117 @@ html, body, .dav-w-h-100 {
 
 /* Text sizes */
 .dav-font-size-1 {
-    font-size: 30px;
+    font-size: 20px;
+}
+
+/* Messages */
+.dav-row-messages {
+    height: 70%;
+}
+
+.dav-messages-body {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 90%;
+    width: 100%;
+    overflow: auto;
+    border-radius: 20px;
+}
+
+.dav-messages-input {
+    height: 10%;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dav-bloc-message {
+    display: flex;
+    align-items: flex-end;
+    margin: 3px;
+}
+
+.dav-msg-user-icon {
+    background: rgb(130,255,133);
+    background: radial-gradient(circle, rgba(130,255,133,1) 0%, rgba(255,55,55,1) 100%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.dav-msg-infos {
+    max-width: 70%;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.dav-msg-user-name {
+    color: steelblue;
+    font-size: small;
+}
+
+.dav-msg-text{
+    padding: 6px;
+    background-color: thistle;
+    border-radius: 10px 0px 10px 0px;
+    font-family: "Calibri", "Georgia", sans-serif;
+    cursor: pointer;
+    line-height: 90%;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+.dav-msg-date {
+    color: steelblue;
+    font-size: small;
+    display: none;
+}
+
+.dav-msg-mine {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dav-msg-mine .dav-msg-user-icon {
+    display: none;
+}
+
+.dav-msg-mine .dav-msg-infos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.dav-msg-mine .dav-msg-user-name {
+    display: none;
+}
+
+.dav-msg-mine .dav-msg-text {
+    border-radius: 0px 10px 0px 10px;
+    background-color: skyblue;
+}
+
+.dav-msg-log-in {
+    color: white;
+    text-shadow: black 1px 1px 5px;
+}
+
+.dav-msg-form-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#message-text-input {
+    width: 75%;
+    min-height: 80%;
+    border-radius: 50px;
+}
+
+#message-btn-send {
+    width: 20%;
+    min-height: 80%;
+    border-radius: 50px;
 }
