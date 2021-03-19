@@ -21,22 +21,35 @@ def mtest():
 @socketio.on('message')
 def handleMessage(msg):
     data = {"type": "", "info": {}}
+    isBroadCast = True
 
     dataClient = {}
     if len(str(msg)) > 0 :
         dataClient = json.loads(msg)
-    if "type" in dataClient and dataClient["type"] == "send_message_from_client" :
-        if "user" in session :
-            user = User.query.get(session["user"])
-            info = {}
-            info["user_id"] = user.user_id
-            info["user_name"] = user.user_pseudo
-            info["msg_val"] = dataClient["info"]["msg_val"]
-            info["msg_date"] = "Lundi"
-            info["msg_timestamp"] = dataClient["info"]["msg_timestamp"]
-            info["visitor_id"] = session["visitor"]
-            data["info"] = info
-            data["type"] = "send_message_broadcast_from_server"
+    if "type" in dataClient :
+        if dataClient["type"] == "send_message_from_client" :
+            if dataClient["info"]["user_id"] :
+                user_id = dataClient["info"]["user_id"]
+                user = User.query.get(user_id)
+                info = {}
+                info["user_id"] = user.user_id
+                info["user_name"] = user.user_pseudo
+                info["msg_val"] = dataClient["info"]["msg_val"]
+                info["msg_date"] = datetime.now().strftime("%a %d %b %Y, %H:%M")
+                info["msg_timestamp"] = dataClient["info"]["msg_timestamp"]
+                info["visitor_id"] = session["visitor"]
+                data["info"] = info
+                data["type"] = "send_message_broadcast_from_server"
+        
+        elif  dataClient["type"] == "connection" :
+            if "user" in session :
+                user = User.query.get(session["user"])
+                data["info"]["user"] = user.toDict(formatDate=True)
+            if "visitor" in session :
+                data["info"]["visitor_id"] = session["visitor"]
+            
+            data["type"] = "connection_response"
+            isBroadCast = False
 
     dataJson = json.dumps(data)
-    send(dataJson, broadcast=True)
+    send(dataJson, broadcast=isBroadCast)

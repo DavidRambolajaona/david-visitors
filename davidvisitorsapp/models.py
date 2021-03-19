@@ -34,14 +34,19 @@ class User(db.Model):
         self.user_password = password
         self.user_email = email
 
-    def toDict(self):
+    def toDict(self, formatDate=False):
         d = {}
         d["user_id"] = self.user_id
         d["user_pseudo"] = self.user_pseudo
         d["user_email"] = self.user_email
         d["user_password"] = self.user_password
-        d["user_date_creation"] = self.user_date_creation
-        d["user_date_last_modification"] = self.user_date_last_modification
+        date_cr = self.user_date_creation
+        date_lm = self.user_date_last_modification
+        if formatDate :
+            date_cr = date_cr.strftime("%a %d %b %Y, %H:%M")
+            date_lm = date_lm.strftime("%a %d %b %Y, %H:%M")
+        d["user_date_creation"] = date_cr
+        d["user_date_last_modification"] = date_lm
         return d
 
 """#One to Many with Category

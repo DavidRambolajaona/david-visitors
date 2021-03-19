@@ -12,6 +12,12 @@ $("#btn-logout").on("click", function(e){
                 $(".dav-messages-input").html(r.message_input);
                 $("#info_visit").html(r.info_visit);
                 $("#modal-user-info").modal("hide");
+                user = null;
+                visitor_id = r.visitor_id;
+
+                // My messages are not mine anylonger
+                $(".dav-bloc-message.dav-msg-mine").addClass("dav-msg-others");
+                $(".dav-bloc-message.dav-msg-mine").removeClass("dav-msg-mine");
             }
             else {
                 $("#text_info_user_info").text(getInfoMessage(r.code));

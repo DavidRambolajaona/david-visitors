@@ -1,13 +1,23 @@
 
 const btnHomeSigninHtml = '<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modal-signin">Sign in</button>';
 const url_host = window.location.origin;
-const visitor_id = $("#visitor_id").val();
+var visitor_id = 0;
+var user = null;
 
 // Initializing socket
 var socket = io.connect(url_host);
 socket.on('connect', function() {
-    var data = {"type": "connection", "info": {"visitor_id": visitor_id}};
+    var data = {"type": "connection"};
     socket.send(JSON.stringify(data));
+});
+
+// Response after socket connection
+socket.on('message', function(data){
+    var data = JSON.parse(data);
+    if (data.type && data.type == "connection_response") {
+        visitor_id = data.info.visitor_id;
+        user = data.info.user;
+    }
 });
 
 

@@ -54,6 +54,11 @@ $("#btn-ok-signin").on("click", function(e){
                     $("#homeMainBtn").html(r.btn_user);
                     $(".dav-messages-input").html(r.message_input);
                     $("#modal-signin").modal("hide");
+                    user = r.user;
+
+                    // Restoring my messages
+                    $(".dav-bloc-message[data-user-id='"+user.user_id+"']").addClass("dav-msg-mine");
+                    $(".dav-bloc-message[data-user-id='"+user.user_id+"']").removeClass("dav-msg-others");
                 }
                 else {
                     $("#text_info_signin").text(getInfoMessage(r.code));

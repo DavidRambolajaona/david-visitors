@@ -23,7 +23,7 @@ def checkUser():
         if user == None :
             return jsonify({"success": False, "exist": False, "code": "user_not_exist"})
         else :
-            userArray = user.toDict()
+            userArray = user.toDict(formatDate=True)
             if "user_password" in userArray.keys() :
                 del userArray["user_password"]
 
@@ -86,7 +86,7 @@ def createUser():
 
                 session["user"] = user.user_id
 
-            data["user"] = user.toDict()
+            data["user"] = user.toDict(formatDate=True)
             if "user_password" in data["user"].keys() :
                 del data["user"]["user_password"]
 
@@ -146,7 +146,7 @@ def logoutUser() :
 
     messageInputHtml = render_template("pieces/message_input_send.html")
 
-    return jsonify({"success": True, "btn_signin": btnSigninHtml,  "code": "", "info_visit": infoVisitHtml, "message_input": messageInputHtml})
+    return jsonify({"success": True, "btn_signin": btnSigninHtml,  "code": "", "info_visit": infoVisitHtml, "message_input": messageInputHtml, "visitor_id": visit.visit_id})
 
 
 def getRankText(n) :

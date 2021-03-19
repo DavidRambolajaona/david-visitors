@@ -86,7 +86,12 @@ html, body, .dav-w-h-100 {
 .dav-msg-date {
     color: steelblue;
     font-size: small;
-    display: none;
+}
+
+.dav-msg-others .dav-msg-infos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .dav-msg-mine {

@@ -79,6 +79,7 @@ $("#btn-create-account").on("click", function(e){
                     $("#homeMainBtn").html(r.btn_user);
                     $(".dav-messages-input").html(r.message_input);
                     $("#modal-signup").modal("hide");
+                    user = r.user;
                 }
                 else {
                     $("#text_info_signup").text(getInfoMessage(r.code));
