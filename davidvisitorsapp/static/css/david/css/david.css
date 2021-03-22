@@ -27,6 +27,7 @@ html, body, .dav-w-h-100 {
 /* Messages */
 .dav-row-messages {
     height: 70%;
+    position: relative;
 }
 
 .dav-messages-body {
@@ -76,7 +77,7 @@ html, body, .dav-w-h-100 {
     padding: 6px;
     background-color: thistle;
     border-radius: 10px 0px 10px 0px;
-    font-family: "Calibri", "Georgia", sans-serif;
+    font-family: "Calibri";
     cursor: pointer;
     line-height: 90%;
     overflow-wrap: break-word;
@@ -142,5 +143,35 @@ html, body, .dav-w-h-100 {
 }
 
 .dav-msg-not-already-sent {
-    opacity: 0.7;
+    opacity: 0.5;
+}
+
+#dav-loading-messages{
+    z-index: 100;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(238,174,202);
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(50,27,204,1) 100%);
+    color: white;
+    border-radius: 20px;
+}
+
+#dav-loader-old-messages{
+    color: midnightblue;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+}
+
+#dav-top-discussion-text {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

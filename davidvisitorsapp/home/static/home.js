@@ -3,6 +3,7 @@ const btnHomeSigninHtml = '<button type="button" class="btn btn-outline-dark" da
 const url_host = window.location.origin;
 var visitor_id = 0;
 var user = null;
+var readyLoadingMessages = {"home": false, "message": false};
 
 // Initializing socket
 var socket = io.connect(url_host);
@@ -17,6 +18,22 @@ socket.on('message', function(data){
     if (data.type && data.type == "connection_response") {
         visitor_id = data.info.visitor_id;
         user = data.info.user;
+
+        // Updating messages that are mine
+        if (user && user.user_id) {
+            $(".dav-bloc-message[data-user-id='"+user.user_id+"']").addClass("dav-msg-mine");
+            $(".dav-bloc-message[data-user-id='"+user.user_id+"']").removeClass("dav-msg-others");
+
+            $(".dav-bloc-message.dav-last-msg").removeClass("dav-last-msg");
+            $(".dav-bloc-message").last().addClass("dav-last-msg");
+        }
+
+        updateScroll();
+
+        readyLoadingMessages["home"] = true;
+        if (readyLoadingMessages["message"]) {
+            $("#dav-loading-messages").hide();
+        }
     }
 });
 

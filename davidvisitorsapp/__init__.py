@@ -34,10 +34,11 @@ def create_app():
     app.register_blueprint(message_bp)
 
     with app.app_context() :
-        from .models import db, Visit, User
+        from .models import db, Visit, User, Message
 
         admin.add_view(ModelView(Visit, db.session))
         admin.add_view(ModelView(User, db.session))
+        admin.add_view(ModelView(Message, db.session))
         
         db.init_app(app)
         db.create_all()

@@ -1,9 +1,27 @@
 var scrolled = false;
+var topMsgId = '';
+var isTopMsg = false;
+var searchingOldMessagesApi = false;
 
-function updateScroll(){
+function updateScroll(targetElem=null){
     var element = document.getElementById("dav-messages-body");
-    element.scrollTop = element.scrollHeight;
-    scrolled = false;
+    var toTop = 0;
+    if (targetElem == null) {
+        scrolled = false;
+        toTop = element.scrollHeight;
+    }
+    else {
+        var $target = $(targetElem);
+        if ($target.length > 0) {
+            var docViewTop = $("#dav-messages-body").scrollTop();
+            var elemTop = $target.position().top + docViewTop;
+            toTop = elemTop;
+        }
+        else {
+            toTop = element.scrollHeight;
+        }
+    }
+    element.scrollTop = toTop;
 }
 
 function isScrolledIntoView(elem, container="#dav-messages-body")
@@ -17,8 +35,8 @@ function isScrolledIntoView(elem, container="#dav-messages-body")
     return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
-function getMessageModeleHtml(userName="User", userId=0, msgText="Test", msgDate="Lun 01 Jan 2021, 07:00", msgTimestamp='', me=true, alreadySent=true, lastMsg=true) {
-    var msgHtml = '<div class="dav-bloc-message '+ (me ? "dav-msg-mine" : "dav-msg-others") + ' ' + (alreadySent ? "" : "dav-msg-not-already-sent") + ' ' + (lastMsg ? "dav-last-msg" : "") +'" data-user-id="'+userId+'" data-timestamp="'+msgTimestamp+'">';
+function getMessageModeleHtml(userName="User", userId=0, msgText="Test", msgDate="Lun 01 Jan 2021, 07:00", msgTimestamp='', me=true, alreadySent=true, lastMsg=true, msgId='') {
+    var msgHtml = '<div class="dav-bloc-message '+ (me ? "dav-msg-mine" : "dav-msg-others") + ' ' + (alreadySent ? "" : "dav-msg-not-already-sent") + ' ' + (lastMsg ? "dav-last-msg" : "") +'" data-user-id="'+userId+'" data-timestamp="'+msgTimestamp+'" data-msg-id="'+msgId+'">';
     msgHtml += '<div class="dav-msg-user-icon"></div>';
     msgHtml += '<div class="dav-msg-infos">';
     msgHtml += '<div class="dav-msg-user-name">'+userName+'</div>';
@@ -30,12 +48,106 @@ function getMessageModeleHtml(userName="User", userId=0, msgText="Test", msgDate
     return msgHtml;
 }
 
+function showLoaderOldMessages(show=true) {
+    if (show) {
+        var loaderHtml = '<div id="dav-loader-old-messages"><span class="spinner-border"></span></div>';
+        $("#dav-messages-body").prepend(loaderHtml);
+    }
+    else {
+        $("#dav-loader-old-messages").remove();
+    }
+}
+
+function loadOldMessages(topMsgIdParam='', loadingPage=false) {
+    searchingOldMessagesApi = true;
+    if (!loadingPage) {
+        showLoaderOldMessages();
+    }
+    letsAjaxIt("/api/message/messages", "GET", {"top_msg_id": topMsgIdParam}, "json", function(r, s, e) {
+        showLoaderOldMessages(false);
+        if (!e) {
+            if (r.success) {
+                isTopMsg = r.topMsg;
+                var msgs = r.msgs;
+                if (topMsgId) {
+                    var topMsgSelector = ".dav-bloc-message[data-msg-id='"+topMsgId+"']";
+                }
+                else {
+                    var topMsgSelector = null;
+                }
+                for (i in msgs) {
+                    var msg = msgs[i];
+                    var userName = msg.msg_user_name;
+                    var userId = msg.msg_user_id;
+                    var msgVal = msg.msg_text;
+                    var msgDate = msg.msg_date;
+                    var msgTimestamp = '';
+                    if (typeof user == "undefined" || user == null || (user && user.user_id != msg.msg_user_id)) {
+                        var me = false;
+                    }
+                    else {
+                        var me = true;
+                    }
+                    var alreadySent = true;
+                    var lastMsg = false;
+                    var msgId = msg.msg_id;
+    
+                    var msgHtml = getMessageModeleHtml(userName, userId, msgVal, msgDate, msgTimestamp, me, alreadySent, lastMsg, msgId);
+                    $("#dav-messages-body").prepend(msgHtml);
+                    topMsgId = msgId;
+                }
+                $(".dav-bloc-message.dav-last-msg").removeClass("dav-last-msg");
+                $(".dav-bloc-message").last().addClass("dav-last-msg");
+
+                searchingOldMessagesApi = false;
+                if (isTopMsg) {
+                    var textTopMsgHtml = '<div id="dav-top-discussion-text">You are at the top of the chat</div>';
+                    $("#dav-messages-body").prepend(textTopMsgHtml);
+                }
+
+                if (loadingPage) {
+                    updateScroll();
+        
+                    readyLoadingMessages["message"] = true;
+                    if (readyLoadingMessages["home"]) {
+                        $("#dav-loading-messages").hide();
+                    }
+                }
+                else {
+                    updateScroll(topMsgSelector);
+                }
+
+                loadOldMessagesIfTopScroll(false);
+
+            }
+            else {
+                searchingOldMessagesApi = false;
+            }
+        }
+        else {
+            searchingOldMessagesApi = false;
+        }
+    });
+}
+
+function loadOldMessagesIfTopScroll(loadingPage=false) {
+    var scrollTop = $("#dav-messages-body").scrollTop();
+    if (scrollTop < 1) {
+        if (!isTopMsg) {
+            if (!searchingOldMessagesApi) {
+                loadOldMessages(topMsgId, loadingPage);
+            }
+        }
+    }
+}
+
 updateScroll();
 
 $("#dav-messages-body").on("scroll", function(e){
     if ($(".dav-last-msg").length > 0) {
         scrolled = !isScrolledIntoView(".dav-last-msg");
     }
+    loadOldMessagesIfTopScroll(false);
 });
 
 
@@ -127,3 +239,6 @@ $("body").on('click', '.dav-msg-text', function(e){
         $(this).parent().find(".dav-msg-date").toggleClass("d-none");
     }
 });
+
+// Getting messages
+loadOldMessages('', true);

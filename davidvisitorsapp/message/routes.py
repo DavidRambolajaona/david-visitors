@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, request, redirect, jsonify
 from sqlalchemy import and_, or_
-from davidvisitorsapp.models import db, User, Visit
+from davidvisitorsapp.models import db, User, Visit, Message
 from davidvisitorsapp.socketio import socketio, send
 
 from datetime import datetime
@@ -35,11 +35,21 @@ def handleMessage(msg):
                 info["user_id"] = user.user_id
                 info["user_name"] = user.user_pseudo
                 info["msg_val"] = dataClient["info"]["msg_val"]
-                info["msg_date"] = datetime.now().strftime("%a %d %b %Y, %H:%M")
+                dateNow = datetime.utcnow()
+                info["msg_date"] = dateNow.strftime("%a %d %b %Y, %H:%M")
                 info["msg_timestamp"] = dataClient["info"]["msg_timestamp"]
                 info["visitor_id"] = session["visitor"]
                 data["info"] = info
                 data["type"] = "send_message_broadcast_from_server"
+
+                # Saving the message
+                msg = Message()
+                msg.message_text = dataClient["info"]["msg_val"]
+                msg.message_user_id = dataClient["info"]["user_id"]
+                msg.message_user = User.query.get(dataClient["info"]["user_id"])
+                msg.message_date_creation = dateNow
+                db.session.add(msg)
+                db.session.commit()
         
         elif  dataClient["type"] == "connection" :
             if "user" in session :
@@ -53,3 +63,25 @@ def handleMessage(msg):
 
     dataJson = json.dumps(data)
     send(dataJson, broadcast=isBroadCast)
+
+@message_bp.route('/api/message/messages', methods=["GET"])
+def getMessages():
+    msgId = request.args.get("top_msg_id")
+    if msgId is None or len(msgId) == 0 :
+        dateFilter = datetime.utcnow()
+    else :
+        dateFilter = Message.query.get(msgId).message_date_creation
+
+    limitNbMsg = 30
+    msgs = Message.query.filter(Message.message_date_creation < dateFilter).order_by(Message.message_date_creation.desc()).limit(limitNbMsg)
+    data = {"success": True, "msgs": [], "topMsg": False}
+    if msgs.count() < limitNbMsg :
+        data["topMsg"] = True
+    for msg in msgs :
+        m = {"msg_id": msg.message_id}
+        m["msg_text"] = msg.message_text
+        m["msg_user_id"] = msg.message_user_id
+        m["msg_user_name"] = msg.message_user.user_pseudo
+        m["msg_date"] = msg.message_date_creation.strftime("%a %d %b %Y, %H:%M")
+        data["msgs"].append(m)
+    return jsonify(data)

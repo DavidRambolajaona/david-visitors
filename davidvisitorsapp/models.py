@@ -14,7 +14,9 @@ class Visit(db.Model):
     visit_date_visit_date = db.Column(db.Date, default=datetime.utcnow().date())
     visit_user_agent = db.Column(db.Text)
     visit_adresse_ip = db.Column(db.String(25))
-    visit_user_id = db.Column(db.Integer, default=0)
+    # visit_user_id = db.Column(db.Integer, default=0)
+    visit_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=True)
+    visit_user = db.relationship('User', back_populates="user_visits")
     visit_date_login = db.Column(db.DateTime)
     visit_date_logout = db.Column(db.DateTime)
     visit_rank_site = db.Column(db.Integer, default=0)
@@ -28,6 +30,8 @@ class User(db.Model):
     user_password = db.Column(db.String(50), nullable=False)
     user_date_creation = db.Column(db.DateTime, default=datetime.utcnow())
     user_date_last_modification = db.Column(db.DateTime, default=datetime.utcnow())
+    user_messages = db.relationship("Message", back_populates="message_user")
+    user_visits = db.relationship("Visit", back_populates="visit_user")
 
     def __init__(self, pseudo, password, email=None):
         self.user_pseudo = pseudo
@@ -48,6 +52,14 @@ class User(db.Model):
         d["user_date_creation"] = date_cr
         d["user_date_last_modification"] = date_lm
         return d
+
+class Message(db.Model):
+    __tablename__ = "message"
+    message_id = db.Column(db.Integer, primary_key=True)
+    message_text = db.Column(db.Text, nullable=False)
+    message_date_creation = db.Column(db.DateTime, default=datetime.utcnow())
+    message_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    message_user = db.relationship('User', back_populates="user_messages")
 
 """#One to Many with Category
 #One to Many with Joke
