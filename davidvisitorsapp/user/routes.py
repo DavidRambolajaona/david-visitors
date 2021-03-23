@@ -9,6 +9,7 @@ import random
 import string
 import json
 import hashlib
+import random
 
 user_bp = Blueprint('user_bp', __name__, template_folder='templates', static_folder='static', static_url_path='/user-static')
 
@@ -74,6 +75,7 @@ def createUser():
                 if userCheckEmail != None :
                     return jsonify({"success": False, "message": "Email déjà utilisé par un autre utilisateur", "code": "email_already_exists"})
             user = User(pseudo, password, email)
+            user.user_colors = getRandomHexaColor() + '.' + getRandomHexaColor()
             db.session.add(user)
             db.session.commit()
 
@@ -152,3 +154,10 @@ def logoutUser() :
 def getRankText(n) :
     s = str(n)
     return "th" if (len(s) > 1 and s[len(s)-2:len(s)] in ["11", "12", "13"]) or s[-1] not in "123" else "st" if s[-1] == "1" else "nd" if s[-1] == "2" else "rd"
+
+def getRandomHexaColor() :
+    c = "0123456789ABCDEF"
+    r = ''
+    for i in range(6) :
+        r += random.choice(c)
+    return r

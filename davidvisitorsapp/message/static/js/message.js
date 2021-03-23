@@ -35,9 +35,9 @@ function isScrolledIntoView(elem, container="#dav-messages-body")
     return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
-function getMessageModeleHtml(userName="User", userId=0, msgText="Test", msgDate="Lun 01 Jan 2021, 07:00", msgTimestamp='', me=true, alreadySent=true, lastMsg=true, msgId='') {
+function getMessageModeleHtml(userName="User", userId=0, msgText="Test", msgDate="Lun 01 Jan 2021, 07:00", msgTimestamp='', me=true, alreadySent=true, lastMsg=true, msgId='', userBg="000000", userFg="FFFFFF") {
     var msgHtml = '<div class="dav-bloc-message '+ (me ? "dav-msg-mine" : "dav-msg-others") + ' ' + (alreadySent ? "" : "dav-msg-not-already-sent") + ' ' + (lastMsg ? "dav-last-msg" : "") +'" data-user-id="'+userId+'" data-timestamp="'+msgTimestamp+'" data-msg-id="'+msgId+'">';
-    msgHtml += '<div class="dav-msg-user-icon"></div>';
+    msgHtml += '<div class="dav-msg-user-icon" style="background: radial-gradient(circle, #'+userFg+' 0%, #'+userBg+' 100%);"></div>';
     msgHtml += '<div class="dav-msg-infos">';
     msgHtml += '<div class="dav-msg-user-name">'+userName+'</div>';
     msgHtml += '<div class="dav-msg-text">'+msgText+'</div>';
@@ -91,8 +91,10 @@ function loadOldMessages(topMsgIdParam='', loadingPage=false) {
                     var alreadySent = true;
                     var lastMsg = false;
                     var msgId = msg.msg_id;
+                    var userBg = msg.msg_user_colors.split('.')[0];
+                    var userFg = msg.msg_user_colors.split('.')[1];
     
-                    var msgHtml = getMessageModeleHtml(userName, userId, msgVal, msgDate, msgTimestamp, me, alreadySent, lastMsg, msgId);
+                    var msgHtml = getMessageModeleHtml(userName, userId, msgVal, msgDate, msgTimestamp, me, alreadySent, lastMsg, msgId, userBg, userFg);
                     $("#dav-messages-body").prepend(msgHtml);
                     topMsgId = msgId;
                 }
@@ -168,8 +170,10 @@ $("body").on('click', '#message-btn-send', function(e){
         var me = true;
         var alreadySent = false;
         var lastMsg =false;
+        var userBg = user.user_colors.split('.')[0];
+        var userFg = user.user_colors.split('.')[1];
 
-        var msgHtml = getMessageModeleHtml(userName, userId, msgVal, msgDate, msgTimestamp, me, alreadySent, lastMsg);
+        var msgHtml = getMessageModeleHtml(userName, userId, msgVal, msgDate, msgTimestamp, me, alreadySent, lastMsg, msgId='', userBg, userFg);
 
         var dataToSend = {
             "type": "send_message_from_client",
@@ -204,8 +208,10 @@ socket.on('message', function(data){
         }
         var alreadySent = true;
         var lastMsg = true;
+        var userBg = data.info.user_colors.split('.')[0];
+        var userFg = data.info.user_colors.split('.')[1];
 
-        var msgHtml = getMessageModeleHtml(userName, userId, msgVal, msgDate, msgTimestamp, me, alreadySent, lastMsg);
+        var msgHtml = getMessageModeleHtml(userName, userId, msgVal, msgDate, msgTimestamp, me, alreadySent, lastMsg, msgId='', userBg, userFg);
 
         $(".dav-bloc-message.dav-last-msg").removeClass("dav-last-msg");
 

@@ -39,6 +39,7 @@ def handleMessage(msg):
                 info["msg_date"] = dateNow.strftime("%a %d %b %Y, %H:%M")
                 info["msg_timestamp"] = dataClient["info"]["msg_timestamp"]
                 info["visitor_id"] = session["visitor"]
+                info["user_colors"] = user.user_colors
                 data["info"] = info
                 data["type"] = "send_message_broadcast_from_server"
 
@@ -83,5 +84,6 @@ def getMessages():
         m["msg_user_id"] = msg.message_user_id
         m["msg_user_name"] = msg.message_user.user_pseudo
         m["msg_date"] = msg.message_date_creation.strftime("%a %d %b %Y, %H:%M")
+        m["msg_user_colors"] = msg.message_user.user_colors
         data["msgs"].append(m)
     return jsonify(data)

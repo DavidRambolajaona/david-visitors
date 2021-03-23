@@ -30,6 +30,7 @@ class User(db.Model):
     user_password = db.Column(db.String(50), nullable=False)
     user_date_creation = db.Column(db.DateTime, default=datetime.utcnow())
     user_date_last_modification = db.Column(db.DateTime, default=datetime.utcnow())
+    user_colors = db.Column(db.Text, default='000000.FFFFFF')
     user_messages = db.relationship("Message", back_populates="message_user")
     user_visits = db.relationship("Visit", back_populates="visit_user")
 
@@ -44,6 +45,7 @@ class User(db.Model):
         d["user_pseudo"] = self.user_pseudo
         d["user_email"] = self.user_email
         d["user_password"] = self.user_password
+        d["user_colors"] = self.user_colors
         date_cr = self.user_date_creation
         date_lm = self.user_date_last_modification
         if formatDate :
