@@ -1,6 +1,7 @@
 
 function validateDataSignIn(data) {
     var isValid = true;
+    var minPasswordLength = 6;
 
     // Pseudo
     if (data.hasOwnProperty("pseudo")) {
@@ -15,7 +16,7 @@ function validateDataSignIn(data) {
 
     // Password
     if (data.hasOwnProperty("password")) {
-        if (data["password"].length == 0) {
+        if (data["password"].length < minPasswordLength) {
             $("#modal-signin #form-signin input[name='password']").addClass("is-invalid");
             isValid = false;
         }
@@ -31,7 +32,7 @@ function validateDataSignIn(data) {
 $("#btn-switch-to-signup").on("click", function(e){
     e.preventDefault();
     $("#modal-signin").modal("hide");
-    $("#modal-signup").modal("show");
+    $("#modal-signup").modal({backdrop: 'static'});
 });
 
 $("#btn-ok-signin").on("click", function(e){
@@ -79,5 +80,15 @@ $("#btn-ok-signin").on("click", function(e){
 
 
 $("#modal-signin").on("show.bs.modal", function(e){
+    // $('#modal-signin').modal({backdrop: 'static'});
     cleanFormSignin();
+    $('body').addClass("dav-custom-bg-modal-signin");
+}).on('hide.bs.modal', function (e) {
+    $('body').removeClass("dav-custom-bg-modal-signin");
+});
+
+$("body").on('keypress', '#modal-signin form input', function(e){
+    if (e.which == 13) {
+        $("#btn-ok-signin").click();
+    }
 });

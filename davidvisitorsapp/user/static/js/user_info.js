@@ -31,3 +31,9 @@ $("#btn-logout").on("click", function(e){
     });
     
 });
+
+$("#modal-user-info").on("show.bs.modal", function(e){
+    $('body').addClass("dav-custom-bg-modal-user-info");
+}).on('hide.bs.modal', function (e) {
+    $('body').removeClass("dav-custom-bg-modal-user-info");
+});

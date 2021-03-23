@@ -103,7 +103,7 @@ function loadOldMessages(topMsgIdParam='', loadingPage=false) {
 
                 searchingOldMessagesApi = false;
                 if (isTopMsg) {
-                    var textTopMsgHtml = '<div id="dav-top-discussion-text">You are at the top of the chat</div>';
+                    var textTopMsgHtml = '<div id="dav-top-discussion-text" class="font-italic">You are at the top of the chat</div>';
                     $("#dav-messages-body").prepend(textTopMsgHtml);
                 }
 

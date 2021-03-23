@@ -65,8 +65,8 @@ function switchButtonLoader($btn){
     }
     else {
         $btn.attr("btn-loading", "true");
-        $btn.attr("btn-text", $btn.text());
-        $btn.html($btn.text() + ' <span class="spinner-border spinner-border-sm"></span>');
+        $btn.attr("btn-text", $btn.html());
+        $btn.html($btn.html() + ' <span class="spinner-border spinner-border-sm"></span>');
         $btn.attr("disabled", "");
     }
 };

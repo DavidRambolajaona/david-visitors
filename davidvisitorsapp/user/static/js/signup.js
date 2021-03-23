@@ -2,6 +2,7 @@
 
 function validateDataSignUp(data) {
     var isValid = true;
+    var minPasswordLength = 6;
 
     // Pseudo
     if (data.hasOwnProperty("pseudo")) {
@@ -28,7 +29,7 @@ function validateDataSignUp(data) {
 
     // Password
     if (data.hasOwnProperty("password")) {
-        if (data["password"].length == 0) {
+        if (data["password"].length < minPasswordLength) {
             $("#modal-signup #form-signup input[name='password']").addClass("is-invalid");
             isValid = false;
         }
@@ -56,7 +57,7 @@ function validateDataSignUp(data) {
 $("#btn-switch-to-signin").on("click", function(e){
     e.preventDefault();
     $("#modal-signup").modal("hide");
-    $("#modal-signin").modal("show");
+    $("#modal-signin").modal({backdrop: 'static'});
 });
 
 $("#btn-create-account").on("click", function(e){
@@ -100,4 +101,13 @@ $("#btn-create-account").on("click", function(e){
 
 $("#modal-signup").on("show.bs.modal", function(e){
     cleanFormSignup();
+    $('body').addClass("dav-custom-bg-modal-signup");
+}).on('hide.bs.modal', function (e) {
+    $('body').removeClass("dav-custom-bg-modal-signup");
+});
+
+$("body").on('keypress', '#modal-signup form input', function(e){
+    if (e.which == 13) {
+        $("#btn-create-account").click();
+    }
 });
